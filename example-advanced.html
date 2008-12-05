@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>jQuery pageState &mdash; Simple Example</title>
+    <script src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" charset="utf-8">
+      google.load('jquery', '1');
+    </script>
+    <script src="jquery.pageState.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        // $('#geonamesform').pageState();
+        // $('#geonamesform').pageState({
+        //   dataURL: 'http://ws.geonames.org/searchJSON', 
+        //   dataFormat: 'json',
+        //   dataHandler: function(data) {
+        //     var results = $('<div></div>');
+        //     $(results).append(data.totalResultsCount, ' Results');
+        //     $.each(data.geonames, function() {
+        //       var lis = [];
+        //       $(this).each(function(k,v) {
+        //         lis.push($('<li>').append(k, ': ', v));
+        //       });
+        //       var ul = $('<ul></ul>').append(lis);
+        //       $(results).append(ul);
+        //     });
+        //     $('#places').update(results);
+        //   }
+        // });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>jQuery pageState &mdash; Simple Example</h1>
+    
+    <form id="geonamesform" method="get">
+      <p>
+        <label for="q">Search</label>
+        <input type="text" name="q" value="" id="q"/>
+      </p>
+      
+      <p>
+        <label for="country_code">2-letter Country Code</label>
+        <input type="text" name="country_code" value="US" id="country_code"/>
+      </p>
+      
+      <p>
+        <label for="lang">2-letter Languate Code</label>
+        <input type="text" name="lang" value="en" id="lang"/>
+      </p>
+
+      <p><input type="submit" value="Continue &rarr;"></p>
+    </form>
+    
+    <p>
+      <label for="unstately">Unstately (not a part of the page state)</label>
+      <input type="text" name="unstately" value="" id="unstately">
+    </p>
+    
+    <div id="places">
+      
+    </div>
+  </body>
+</html>
