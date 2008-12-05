@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
   <head>
-    <title>jQuery pageState &mdash; Simple Example</title>
+    <title>jQuery pageState Example</title>
     <script src="http://www.google.com/jsapi"></script>
     <script type="text/javascript" charset="utf-8">
       google.load('jquery', '1');
@@ -10,13 +10,24 @@
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
         $.pageState();
+        
+        // So that's kind of a trivial example, but it's hard to make a good
+        // one without cross-site scripting. Here's what you might do in a
+        // realistic sitation:
+        // $('#theform').pageState({          // Restrict page state to inputs under #form
+        //   dataURL: 'path/to/some.json',    // Customize the path pageState will go to for data
+        //   dataType: 'json',                // Expect JSON in response
+        //   dataHandler: function(data) {    // Do something interesting with the data
+        //     alert('Imagine doing something cool with this json!');
+        //   }
+        // });
       });
     </script>
   </head>
   <body>
-    <h1>jQuery pageState &mdash; Simple Example</h1>
+    <h1>jQuery pageState Example</h1>
     
-    <form method="get">
+    <form id="theform" method="get">
       <p>
         <label for="q">Search</label>
         <input type="text" name="q" value="" id="q"/>

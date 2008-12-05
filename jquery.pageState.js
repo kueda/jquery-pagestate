@@ -17,7 +17,6 @@
     
     // Store the name/values of all inputs as key/values in the data cache
     inputs.each(function() {
-      console.log(this);
       var name = $(this).attr('name');
       if (typeof(name) == 'undefined' || name == '') { return false; };
       // Store it
@@ -54,7 +53,6 @@
         };
       });
     };
-    console.log('anchorObj: ', anchorObj);
     
     // Extend the hash with the current page state
     anchorObj = $.extend(anchorObj, $.pageState.state);
@@ -79,11 +77,10 @@
       $.pageState.options.dataHandler,
       $.pageState.options.dataType
     );
-  }
+  };
   
   // Changes the pageState for a given key/value
   $.pageState.change = function(key, value) {
-    console.log("Fired $.pageState.change with key: ", key, ", value: ", value);
     var tuple = {};
     tuple[key] = value;
     $.pageState.state = $.extend($.pageState.state, tuple);
