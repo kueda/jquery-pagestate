@@ -29,18 +29,42 @@
     
     <form id="theform" method="get">
       <p>
-        <label for="q">Search</label>
-        <input type="text" name="q" value="" id="q"/>
+        <label for="name">Name</label>
+        <input type="text" name="name" value="" id="name"/>
       </p>
       
       <p>
-        <label for="country_code">2-letter Country Code</label>
-        <input type="text" name="country_code" value="US" id="country_code"/>
+        <label for="flavor">Choose a flavor</label>
+        <select id="flavor" name="flavor">
+          <option value="cherry">cherry</option>
+          <option value="lime">lime</option>
+          <option value="defeat">defeat</option>
+        </select>
       </p>
       
       <p>
-        <label for="lang">2-letter Languate Code</label>
-        <input type="text" name="lang" value="en" id="lang"/>
+        <label for="author">Choose an author</label>
+        <select id="author" name="author" multiple="multiple">
+          <option value="JK Rowling">JK Rowling</option>
+          <option value="Jean Luis Borges">Jean Luis Borges</option>
+          <option value="Herman Melville">Herman Melville</option>
+        </select>
+      </p>
+      
+      <p>
+        <label>Martini?</label>
+        <input type="checkbox" name="martini" value="shaken" id="shaken">
+        <label for="shaken">Shaken</label>
+        <input type="checkbox" name="martini" value="stirred" id="stirred">
+        <label for="stirred">Stirred</label>
+      </p>
+      
+      <p>
+        <label>You must choose!</label>
+        <input type="radio" name="choice" value="yes" id="yes">
+        <label for="yes">yes</label>
+        <input type="radio" name="choice" value="no" id="no">
+        <label for="no">no</label>
       </p>
 
       <p><input type="submit" value="Continue &rarr;"></p>
