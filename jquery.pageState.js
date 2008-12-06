@@ -1,16 +1,12 @@
 // Page state is a jQuery plugin that stores the state of form inputs on a
 // page behind an anchor in the URL.
-
 // TODO:
-//   * DONE should register unchecked checkboxes and radios as not having a value set
-//   * DONE should work for selects
-//   * DONE should handle multiple inputs with the same name... somehow
 //   * add a delay so you don't make a billion requests
-//   * if form passed in as scoping input, bind its submit to submit the url instead
-//   * DONE don't write params to the URL if they have no value 
+//   * add optional 'ignored' selector for inputs that should get updated in the URL but should NOT trigger and ajax call
+//   * add before ajax callback
 (function($){
   $.pageState = function(options) {
-    console.log("DEBUG: Initializing pageState...");
+    // console.log("DEBUG: Initializing pageState...");
     var options = $.extend({}, options);
     
     // Store the options as a var
@@ -22,6 +18,13 @@
       var inputs = $(':input');
     } else {
       var inputs = $(options.only).find(':input');
+      
+      // If this is a form, bind its submit to request data instead of
+      // submitting the form
+      $(options.only).find('form').submit(function() {
+        $.pageState.requestData();
+        return false;
+      });
     }
     
     // Store the name/values of all inputs as key/values in the data cache
@@ -30,14 +33,15 @@
       queryString2Obj(window.location.hash)
     );
     inputs.each(function() {
-      console.log("DEBUG: Working on input: ", this);
+      // console.log("DEBUG: Working on input: ", this);
       var name = $(this).attr('name');
       
       // Ignore unnamed inputs
-      if (typeof(name) == 'undefined' || name == '') { return false; };
+      if (typeof(name) == 'undefined' || name == '') { return true; };
       
       switch ($(this).attr('type')) {
         case 'checkbox':
+          // console.log("\tDEBUG: Working on checkbox...");
           if (typeof(getParams[name]) == 'undefined') {
             state[name] = getCheckboxVal(this);
           } else {
@@ -94,15 +98,7 @@
     // Grab the anchor portion of the URL and make it a hash
     var anchorObj = {};
     if (typeof(window.location.hash) != 'undefined') {
-      // var anchorStr = window.location.hash.substr(
-      //   1, window.location.hash.length);
-      // var anchorStr = window.location.hash.replace(/^#/, '');
       anchorObj = queryString2Obj(window.location.hash);
-      // $.each(anchorStr.split('&'), function() {
-      //   if ($.trim(this) != '') {
-      //     anchorObj[this.split('=')[0]] = this.split('=')[1];
-      //   };
-      // });
     };
     
     // Extend the hash with the current page state
@@ -140,7 +136,7 @@
   function getCheckboxVal(input) {
     var name = $(input).attr('name');
     return $.makeArray(
-      $(':checkbox[name='+name+']:checked').map(
+      $(":checkbox[name='"+name+"']:checked").map(
         function() {return $(this).val()}
       )
     );
@@ -148,13 +144,14 @@
   
   function getRadioVal(input) {
     var name = $(input).attr('name');
-    return $('input[name='+name+']:checked').val();
+    return $("input[name='"+name+"']:checked").val();
   }
   
   function setCheckboxVals(input, values) {
+    // console.log("DEBUG: Setting checkbox val to ", values, "for input: ", this);
     var name = $(input).attr('name');
-    $('input[name='+name+']').each(function() {
-      console.log('input: ', this);
+    $("input[name='"+name+"']").each(function() {
+      // console.log('input: ', this);
       if ($.inArray(values, $(this).val())) {
         this.checked = true;
       } else {
@@ -165,7 +162,7 @@
   
   function setRadioVal(input, value) {
     var name = $(input).attr('name');
-    $('input[name='+name+'][value='+value+']').get(0).checked = true;
+    $("input[name='"+name+"'][value='"+value+"']").get(0).checked = true;
   }
   
   $.pageState.requestData = function() {
@@ -174,7 +171,7 @@
     // Fire away
     $.get(
       $.pageState.options.dataURL,
-      $.pageState.options.state,
+      $.pageState.state,
       $.pageState.options.dataHandler,
       $.pageState.options.dataType
     );
@@ -182,9 +179,10 @@
   
   // Changes the pageState for a given key/value
   $.pageState.change = function(key, value) {
+    // console.log("DEBUG: Fired change.  key: ", key, ", value: ", value);
     var tuple = {};
     tuple[key] = value;
-    $.pageState.state = $.extend($.pageState.state, tuple);
+    $.pageState.state = $.extend({}, $.pageState.state, tuple);
     $.pageState.requestData();
     updateURL();
   };
