@@ -1,0 +1,13 @@
+jQuery pageState is a jQuery plugin that stores the state of form inputs
+behind an anchor hash in the URL, and makes an AJAX call for more data
+whenever those inputs change. 
+
+This is mean to enable a kind of progressive
+enhancement of data visualizations that rely on forms submission to control
+the state of the vis. So if you have a table of records that can be filtered
+or sorted by submitting a form, this plugin would bind all the form inputs so
+that changing them would 
+
+  a) update the state of the URL, and 
+  b) request data with the updated parameters from some AJAX endpoint.
+
